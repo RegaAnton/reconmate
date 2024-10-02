@@ -14,7 +14,8 @@ class DataController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+        $datas = Data::all();
+        return view('admin',compact('datas'));
     }
 
     /**
@@ -56,7 +57,7 @@ class DataController extends Controller
 
         $data->save();
         
-        return redirect()->route('index')->with('success', 'Transaksi Baru Berhasil Dibuat');
+        return redirect()->route('admin.data.index')->with('success', 'Transaksi Baru Berhasil Dibuat');
     }
 
     /**
@@ -92,6 +93,6 @@ class DataController extends Controller
 
         $data->delete();
 
-        return redirect()->route('index')->with('success', 'Transaksi Baru Berhasil Dibuat');
+        return redirect()->route('admin.data.index')->with('success', 'Artikel berhasil dihapus');
     }
 }
