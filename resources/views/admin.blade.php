@@ -24,25 +24,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($datas as $data)
+                    @foreach ($jsonData as $data)
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
-                        <td>{{ $data->title }}</td>
-                        <td>{{ $data->authors }}</td>
                         <td>
-                            <a href="{{ $data->link }}">
-                                <button class="btn btn-success">View</button>
-                            </a>
+                            @foreach ($data['Links'] as $link)
+                                {{ $link['Title'] }}
+                            @endforeach
                         </td>
                         <td>
-                            <button class="btn btn-warning">Edit</button>
+                            @foreach ($data['Authors'] as $author)
+                                {{ $author }}
+                            @endforeach
                         </td>
                         <td>
-                            <form action="{{ route('admin.data.destroy', $data->slug) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger"> DELETE </button>
-                            </form>
+                            @foreach ($data['Links'] as $link)
+                                <a href="{{ $link['Link'] }}">
+                                    <button class="btn btn-success">View</button>
+                                </a>
+                            @endforeach
                         </td>
                     </tr>
                     @endforeach

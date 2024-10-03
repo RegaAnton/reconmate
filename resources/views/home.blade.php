@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Bootstrap demo</title>
+        <title>Reconmate</title>
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -14,26 +14,40 @@
     <body>
         <div class="container">
             <h1>HALAMAN UTAMA</h1>
-
             <div class="row">
-                @foreach ($datas as $data) 
+                @foreach ($jsonData as $data) 
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">{{ $data->title }}</h5>
+                            <h5 class="card-title">
+                                @foreach ($data['Links'] as $link)
+                                    {{ $link['Title'] }}
+                                @endforeach
+                            </h5>
                             <p class="card-text">
-                                Authors : {{ $data->authors }}
+                                Authors : 
+                                @foreach ($data['Authors'] as $author)
+                                     {{ $author }}
+                                @endforeach
                             </p>
                             <p class="card-text">
-                                Programs : {{ $data->programs }}
+                                Programs :
+                                @foreach ($data['Programs'] as $program)
+                                     {{ $program }}
+                                @endforeach
                             </p>
                             <p class="card-text">
-                                Bugs : {{ $data->bugs }}
+                                Bugs :
+                                @foreach ($data['Bugs'] as $bug)
+                                     {{ $bug }}
+                                @endforeach
                             </p>
                             <p class="card-text">
-                                Bounty : {{ $data->bounty }}
+                                Bounty : {{ $data['Bounty'] }}
                             </p>
-                            <a href="{{ $data->link }}" class="btn btn-primary">Go to article</a>
+                            @foreach ($data['Links'] as $link)
+                            <a href="{{ $link['Link'] }}" class="btn btn-primary">Go to article</a>                                
+                            @endforeach
                         </div>
                     </div>
                 </div>

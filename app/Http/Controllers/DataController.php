@@ -6,6 +6,7 @@ use App\Models\Data;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\File;
 
 class DataController extends Controller
 {
@@ -14,8 +15,15 @@ class DataController extends Controller
      */
     public function index()
     {
-        $datas = Data::all();
-        return view('admin',compact('datas'));
+
+        // Path ke file JSON
+        $jsonPath = storage_path('app/json/writeups.json');
+
+        // Baca file JSON dan decode ke array
+        $jsonData = json_decode(file_get_contents($jsonPath), true);
+
+        // Kirim data ke view
+        return view('admin', ['jsonData' => $jsonData['data']]);
     }
 
     /**
@@ -31,33 +39,43 @@ class DataController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi Data
         $request->validate([
             'title' => 'required|string',
-            'link' => 'required|string',
+            'link' => 'required|url',
             'authors' => 'required|string',
-            'programs' => 'required|string',
+            'programs' => 'nullable|string',
             'bugs' => 'required|string',
-            'bounty' => 'required|string',
+            'bounty' => 'nullable|string',
+            'publication_date' => 'required|date',
+            'added_date' => 'required|date',
         ]);
 
-        // Membuat Slug
-        $slug = Str::slug($request->title);
+        // Membaca file JSON yang ada
+        $jsonPath = storage_path('app/json/writeups.json');
+        $data = json_decode(file_get_contents($jsonPath), true);
 
-        // Simpan data ke database
-        $data = new Data();
+        // Menambahkan data baru
+        $newEntry = [
+            'Links' => [
+                [
+                    'Title' => $request->input('title'),
+                    'Link' => $request->input('link'),
+                ]
+            ],
+            'Authors' => explode(',', $request->input('authors')),
+            'Programs' => $request->input('programs') ? explode(',', $request->input('programs')) : ['-'],
+            'Bugs' => explode(',', $request->input('bugs')),
+            'Bounty' => $request->input('bounty') ?: '-',
+            'PublicationDate' => $request->input('publication_date'),
+            'AddedDate' => $request->input('added_date'),
+        ];
 
-        $data->title = $request->title;
-        $data->slug = $slug;
-        $data->link = $request->link;
-        $data->authors = $request->authors;
-        $data->programs = $request->programs;
-        $data->bugs = $request->bugs;
-        $data->bounty = $request->bounty;
+        $data['data'][] = $newEntry;
 
-        $data->save();
-        
-        return redirect()->route('admin.data.index')->with('success', 'Transaksi Baru Berhasil Dibuat');
+        // Menyimpan kembali ke file JSON
+        File::put($jsonPath, json_encode($data, JSON_PRETTY_PRINT));
+
+        return redirect()->route('admin.data.index');
     }
 
     /**
@@ -89,10 +107,6 @@ class DataController extends Controller
      */
     public function destroy(string $slug)
     {
-        $data = Data::where('slug', $slug)->firstOrFail();
-
-        $data->delete();
-
-        return redirect()->route('admin.data.index')->with('success', 'Artikel berhasil dihapus');
+        
     }
 }
