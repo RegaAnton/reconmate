@@ -24,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($jsonData as $data)
+                    @foreach ($jsonData as $index => $data)
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
                         <td>
@@ -43,6 +43,13 @@
                                     <button class="btn btn-success">View</button>
                                 </a>
                             @endforeach
+                        </td>
+                        <td>
+                            <form action="{{ route('admin.data.destroy', $index) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger">HAPUS</button>
+                            </form>
                         </td>
                     </tr>
                     @endforeach

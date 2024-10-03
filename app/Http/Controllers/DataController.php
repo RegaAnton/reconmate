@@ -105,8 +105,25 @@ class DataController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $slug)
+    public function destroy($index)
     {
-        
+            // Path ke file JSON
+        $jsonPath = storage_path('app/json/writeups.json');
+
+        // Membaca isi file JSON
+        $data = json_decode(File::get($jsonPath), true);
+
+        // Pastikan indeks yang diminta valid
+        if (!isset($data['data'][$index])) {
+            return redirect()->back()->withErrors(['message' => 'Data not found.']);
+        }
+
+        // Menghapus data pada indeks yang sesuai
+        unset($data['data'][$index]);
+
+        // Menyimpan ulang data yang telah diperbarui ke file JSON
+        File::put($jsonPath, json_encode($data, JSON_PRETTY_PRINT));
+
+        return redirect()->route('admin.data.index');
     }
 }
