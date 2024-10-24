@@ -44,11 +44,12 @@ cp .env.example .env
 
 -   Run the following command to generate the key
 
-````bash
+```bash
 php artisan key:generate
+```
 
-- Start Project
+-   Start Project
 
 ```bash
-php artisan serve
-````
+php artisan serv
+```
