@@ -51,5 +51,5 @@ php artisan key:generate
 -   Start Project
 
 ```bash
-php artisan serv
+php artisan serve
 ```
