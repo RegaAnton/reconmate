@@ -13,11 +13,11 @@
     </head>
     <body>
         <div class="container">
-            <h1>HALAMAN UTAMA</h1>
+            <h1 class="text-center">ARTICLE</h1>
             <div class="row">
                 @foreach ($jsonData as $data) 
-                <div class="col-sm-6 mb-3 mb-sm-0">
-                    <div class="card">
+                <div class="col-sm-3 mb-3 mb-sm-0">
+                    <div class="card mb-3" style="height: 25rem">
                         <div class="card-body">
                             <h5 class="card-title">
                                 @foreach ($data['Links'] as $link)
@@ -46,7 +46,10 @@
                                 Bounty : {{ $data['Bounty'] }}
                             </p>
                             @foreach ($data['Links'] as $link)
-                            <a href="{{ $link['Link'] }}" class="btn btn-primary">Go to article</a>                                
+                            <div class="align-text-bottom">
+                                
+                            </div>
+                            <a href="{{ $link['Link'] }}" class="btn btn-outline-success">Go to article</a>                                
                             @endforeach
                         </div>
                     </div>

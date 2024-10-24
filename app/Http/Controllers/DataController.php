@@ -31,7 +31,7 @@ class DataController extends Controller
      */
     public function create()
     {
-        //
+        return view('create');
     }
 
     /**
@@ -44,7 +44,7 @@ class DataController extends Controller
             'link' => 'required|url',
             'authors' => 'required|string',
             'programs' => 'nullable|string',
-            'bugs' => 'required|string',
+            'bugs' => 'nullable|string',
             'bounty' => 'nullable|string',
             'publication_date' => 'required|date',
             'added_date' => 'required|date',
@@ -107,7 +107,7 @@ class DataController extends Controller
      */
     public function destroy($index)
     {
-            // Path ke file JSON
+        // Path ke file JSON
         $jsonPath = storage_path('app/json/writeups.json');
 
         // Membaca isi file JSON

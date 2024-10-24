@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Bootstrap demo</title>
+        <title>ADMIN PAGE</title>
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -13,7 +13,8 @@
     </head>
     <body>
         <div class="container">
-            <h1>HALAMAN ADMIN</h1>
+            <h1>ADMIN PAGE</h1>
+            <a href="{{ route('admin.data.create') }}" class="btn btn-success"> TAMBAH DATA </a>
             <table class="table">
                 <thead>
                     <tr>
